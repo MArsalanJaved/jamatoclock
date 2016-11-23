@@ -13,15 +13,15 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@+34_9x66^ww_fw)w&*i_(&a$f#n0kfrsfw^(j($m&*aw=4-6w'
-
+ALLOWED_HOSTS = ['jamatoclock.herokuapp.com']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -73,21 +73,21 @@ WSGI_APPLICATION = 'jamatoclock.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
+# https://docs.djangoproject.com/en/1.10/ref/settings/#database
 DATABASES = {
-       'default': {
-        'ENGINE': 'django.db.backends.mysql', 
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'jamatoclock',
-        'USER': 'arsalan',
-        'PASSWORD': 'arsalanA1',
-        'HOST': 'localhost',  
-        'PORT': '3306',
-    
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
+import dj_database_url
 
+DATABASES[‘default’] = dj_database_url.config()
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -125,3 +125,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+SECURE_PROXY_SSL_HEADER = (‘HTTP_X_FORWARDED_PROTO’, ‘https’)

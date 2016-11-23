@@ -12,12 +12,27 @@ def mosque_list(request , format = None):
 		return Response(serializer.data)
 	elif request.method == 'POST':
 		serializer = mosqueserializer(data=request.data)
+		print request.data
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'PUT', 'DELETE'])
+def timings_list(request , format = None):
+	if request.method == 'GET':
+		time = Timing.objects.all()
+		serializer = mosqueserializer(mosque, many=True)
+		return Response(serializer.data)
+	elif request.method == 'POST':
+		serializer = mosqueserializer(data=request.data)
+		print request.data
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST', 'DELETE'])
 def mosques_detail(request, pk , format = None):
 	try:
 		mosque = Mosques.objects.get(gmap_id = pk)
@@ -28,8 +43,8 @@ def mosques_detail(request, pk , format = None):
 		serializer = mosqueserializer(mosque)
 		return Response(serializer.data)
 
-	elif request.method == 'PUT':
-		serializer = SnippetSerializer(snippet, data=request.data)
+	elif request.method == 'POST':
+		serializer = mosqueserializer(mosque, data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data)
@@ -38,6 +53,11 @@ def mosques_detail(request, pk , format = None):
 	elif request.method == 'DELETE':
 		mosque.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
 
 
 
